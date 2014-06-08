@@ -18,7 +18,6 @@ int main()
 	bool isprime[ 65 ] = { false, false, true };
 	for( int i = 3; i <= 64; i += 2 )
 		isprime[ i ] = judge( i );
-	freopen("out.txt","w",stdout);
 
 	for( unsigned long long int i = 2; i <= 65536; ++i )
 		if( all.find( i ) == all.end() )
@@ -27,5 +26,4 @@ int main()
 					all.insert( (unsigned long long int) ( pow( (long double)i, expo ) + 1e-1 ) );
 	for( set<unsigned long long int>::iterator it = all.begin(); it != all.end(); ++it )
 		printf( "%llu\n", *it );
-//		printf( "%u", all.size() );
 }
