@@ -9,7 +9,7 @@ int main()
 {
 	char brd[ 16 ];
 
-	while( gets( brd ) )
+	while( scanf( "%s", brd ) == 1 ) //gets won't work
 	{
 		long long int sum[ 16 ][ 16 ] = { 0 }, ans = 0;
 		int len = strlen( brd );
