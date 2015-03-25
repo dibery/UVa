@@ -1,45 +1,37 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-inline int sigma( int a0, int d, int n )
-{
-	int an = a0 + (n-1) * d;
-	if( an >= 0 || !n )
-		return ( a0 + an ) * n / 2;
-	an = a0 + ( ( n = a0 / -d + 1 ) - 1 ) * d;
-	return ( a0 + an ) * n / 2;
-}
-
 int main()
 {
-	int lake, time;
-	bool first = true;
+	int t, h, w, brd[ 100 ][ 100 ], size;
 
-	while( scanf( "%d %d", &lake, &time ) && lake )
+	for( scanf( "%d", &t ); t--; )
 	{
-		int ans[ 961 ][ 26 ] = { { 0 } }, spend[ 961 ][ 25 ] = { 0 }, init[ 25 ] = { 0 }, down[ 25 ] = { 0 }, next[ 25 ] = { 0 };
+		scanf( "%d %d", &h, &w );
+		size = min( h, w );
+		for( int i = 0; i < h; ++i )
+			for( int j = 0; j < w; ++j )
+				scanf( "%d", brd[ i ] + j );
 
-		time *= 60;
-		for( int i = 0; i < lake; ++i )
-			scanf( "%d", init+i );
-		for( int i = 0; i < lake; ++i )
-			scanf( "%d", down+i );
-		for( int i = 0; i < lake-1; ++i )
-			scanf( "%d", next+i ), next[ i ] *= 5;
+		int nurish[ 101 ][ 101 ][ 101 ], fish[ 101 ][ 101 ][ 101 ] = { 0 }, profit = 0;
 
-		for( int i = lake-1; i >= 0; --i )
-			for( int t = 0; t <= time; t += 5 )
-				for( int This = 0; This <= t; This += 5 )
-					if( ( t >= This + next[ i ] || t == This ) && ans[ t ][ i ] <= sigma( init[ i ], -down[ i ], This / 5 ) + ans[ max( t - This - next[ i ], 0 ) ][ i+1 ] )
-						ans[ t ][ i ] = sigma( init[ i ], -down[ i ], This / 5 ) + ans[ max( t - This - next[ i ], 0 ) ][ i+1 ], spend[ t ][ i ] = This;
+		for( int i = 1; i <= 100; ++i )
+			for( int j = 0; j <= 100; ++j )
+				for( int k = 0; k <= 100; ++k )
+					nurish[ i ][ j ][ k ] = INT_MAX >> 1;
 
-		if( !first )
-			puts( "" );
-		else
-			first = false;
+		for( int i = 1; i <= size; ++i )
+			for( int j = h-1; j >= 0; --j )
+				for( int k = w-1; k >= 0; --k )
+					nurish[ i ][ j ][ k ] = min( min( nurish[ i ][ j ][ k+1 ], nurish[ i ][ j+1 ][ k ] ), brd[ j ][ k ] + nurish[ i-1 ][ j+1 ][ k+1 ] );
 
-		for( int i = 0, t = time; i < lake; t -= t <= 0? 0 : spend[ t ][ i ] + next[ i ], ++i )
-			printf( "%d%s", t <= 0? 0 : spend[ t ][ i ], i == lake-1? "\n" : ", " );
-		printf( "Number of fish expected: %d\n", *ans[ time ] );
+		for( int i = 1; i <= size; ++i )
+			for( int j = h-1; j >= 0; --j )
+				for( int k = w-1; k >= 0; --k )
+					fish[ i ][ j ][ k ] = max( max( fish[ i ][ j ][ k+1 ], fish[ i ][ j+1 ][ k ] ), brd[ j ][ k ] + fish[ i-1 ][ j+1 ][ k+1 ] );
+
+		for( int i = 0; i <= size >> 1; ++i )
+			profit = max( profit, **fish[ i ] - **nurish[ i*2 ] );
+		printf( "%d\n", profit );
 	}
 }
