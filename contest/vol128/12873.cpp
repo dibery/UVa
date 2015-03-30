@@ -69,4 +69,4 @@ int bfs( list<int> adj[], int prev[], int res[][N], int s, int t )
 			}
 	}
 	return 0;
-}x[ 100 ], y[ 100 
+}
