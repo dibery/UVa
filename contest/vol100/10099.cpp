@@ -1,6 +1,4 @@
-#include<cstdio>
-#include<queue>
-#include<algorithm>
+#include<bits/stdc++.h>
 using namespace std;
 
 int main()
@@ -12,6 +10,7 @@ int main()
 		int adj[ 100 ][ 100 ] = { 0 }, Cap[ 100 ] = { 0 };
 		bool vis[ 100 ] = { false };
 		priority_queue<int> tmp;
+
 		while( route-- )
 		{
 			scanf( "%d %d %d", &from, &to, &cap );
