@@ -1,36 +1,51 @@
-#include<cstdio>
-#include<cstring>
-#include<string>
-#include<map>
+#include<bits/stdc++.h>
 using namespace std;
 
 int main()
 {
 	int t;
-	char tmp[ 256 ], *file[ 144 ] = { NULL };
+	string tmp, file[ 144 ];
+
 	for( scanf( "%d\n", &t ); t--; printf( t? "\n" : "" ) )
 	{
 		int size = 0, all_len = 0;
-		map<string,int>dict;
-		map<string,int>::iterator it;
-		while( gets( tmp ) && *tmp )
-		{
-			file[ size++ ] = strdup( tmp );
-			all_len += strlen( tmp );
-		}
-		int dest = all_len * 2 / size;
+		set<string> dict;
+
+		while( getline( cin, tmp ) && tmp.size() )
+			all_len += ( file[ size++ ] = tmp ).size();
+
+		size_t dest = all_len * 2 / size;
+		
 		for( int i = 0; i < size; ++i )
-			for( int j = 0; j < size; ++j )
-				if( i != j && strlen( file[ i ] ) + strlen( file[ j ] ) == dest )
+			for( int j = i + 1; j < size; ++j )
+				if( file[ i ].size() + file[ j ].size() == dest )
 				{
-					string n = string( file[ i ] ) + string( file[ j ] );
-					dict.insert( pair<string,int>( n, 0 ) );
-					++dict[ n ];
+					dict.insert( file[ i ] + file[ j ] );
+					dict.insert( file[ j ] + file[ i ] );
 				}
-		for( it = dict.begin(); it != dict.end(); ++it )
-			if( it->second >= size/2 )
-				break;
-		printf( "%s\n", it->first.c_str() );
+		for( size_t i = 1; i * 2 <= dest; ++i )
+		{
+			set<string> pass, join;
+			for( int m = 0; m < size; ++m )
+				if( file[ m ].size() == i || file[ m ].size() == dest - i )
+					pass.insert( file[ m ] );
+			if( pass.empty() )
+				continue;
+			else if( pass.size() == 1u )
+				pass.insert( *pass.begin() + *pass.begin() );
+			else
+				for( auto& a: pass )
+					for( auto& b: pass )
+						if( a != b && a.size() + b.size() == dest )
+							pass.insert( a + b );
+			for( auto& s: pass )
+				if( dict.find( s ) != dict.end() )
+					join.insert( s );
+			dict = join;
+		}
+		if( !dict.empty() )
+			cout << *dict.begin() << endl;
+		else
+			cout << "oops" << endl;
 	}
-	return 0;
 }
