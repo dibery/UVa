@@ -2,23 +2,21 @@
 using namespace std;
 
 typedef long long ll;
-set<ll> S1, S2;
 const ll S = 81, N = 1000000000000000000ll;
 const double LIM = 18.00001;
+
 ll fib[] = { 2, 3, 5 }, fib2[ S ] = { 13, 21 };
 double logfib[ S ];
+set<ll> S1, S2;
 
 void bt2( int p = 0, ll prod = 1, double logval = 0 )
 {
-	if( logval > LIM )
-		return;
-	if( prod == 0 )
-		cout << '?' << endl;
-	if( p == S )
-		S2.insert( prod );
-	else
-		for( ; logval < LIM; prod *= fib2[ p ], logval += logfib[ p ] )
-			bt2( p + 1, prod, logval );
+	if( logval <= LIM )
+		if( p == S )
+			S2.insert( prod );
+		else
+			for( ; logval < LIM; prod *= fib2[ p ], logval += logfib[ p ] )
+				bt2( p + 1, prod, logval );
 }
 
 void bt( int p = 0, ll prod = 1, double logval = 0 )
