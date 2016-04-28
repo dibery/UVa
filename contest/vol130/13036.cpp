@@ -21,13 +21,12 @@ void bt2( int p = 0, ll prod = 1, double logval = 0 )
 
 void bt( int p = 0, ll prod = 1, double logval = 0 )
 {
-	if( logval > LIM )
-		return;
-	if( p == 3 )
-		S1.insert( prod );
-	else
-		for( ; logval < LIM; prod *= fib[ p ], logval += log10( fib[ p ] ) )
-			bt( p + 1, prod, logval );
+	if( logval <= LIM )
+		if( p == 3 )
+			S1.insert( prod );
+		else
+			for( ; logval < LIM; prod *= fib[ p ], logval += log10( fib[ p ] ) )
+				bt( p + 1, prod, logval );
 }
 
 int main()
