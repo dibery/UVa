@@ -20,7 +20,7 @@ public class Main
                     break;
                 sum = sum.add( num );
             }
-            out = sum.toString();
+            out = sum.toPlainString();
             for( tmp = out.length()-1; out.charAt( tmp ) == '0'; --tmp );
             if( out.charAt( tmp ) == '.' )
                 --tmp;
