@@ -15,6 +15,7 @@ int main()
 				ans[ i ][ j ] = std::min( ans[ i ][ j ], ( 1 + j + k ) * i + ans[ k ][ j ] + ans[ i - k - 1 ][ j + k + 1 ] );
 		}
 
-	for( scanf( "%d", &t ); t-- && scanf( "%d %d", &n, &k ); )
-		printf( "%d\n", ans[ n ][ k ] );
+	scanf( "%d", &t );
+	for( int x = 1; x <= t && scanf( "%d %d", &n, &k ); )
+		printf( "Case %d: %d\n", x, ans[ n ][ k ] );
 }
