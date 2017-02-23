@@ -1,5 +1,12 @@
 #include<bits/stdc++.h>
-int calc( int start );
+
+int calc( int start )
+{
+	int length = 0;
+	for( ; start != 1; ++length )
+		start = start % 2? 3 * start + 1 : start / 2;
+	return length;
+}
 
 int main()
 {
@@ -12,12 +19,4 @@ int main()
 			M = std::max( M, calc( x ) );
 		printf( " %d\n", M + 1 );
 	}
-}
-
-int calc( int start )
-{
-	int length = 0;
-	for( ; start != 1; ++length )
-		start = start % 2? 3 * start + 1 : start / 2;
-	return length;
 }
