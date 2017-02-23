@@ -1,57 +1,49 @@
-#include<cstdio>
-#include<cstdlib>
-#include<cstring>
-#include<algorithm>
+#include<bits/stdc++.h>
 using namespace std;
+
+int find( vector<pair<int,int>>& v, int idx, int right )
+{
+	int ans = -1, pos = idx;
+	for( int ext = -1; pos + 1 < v.size() && v[ pos + 1 ].first <= right; ++pos )
+		if( v[ pos + 1 ].second > ext )
+			ext = v[ pos + 1 ].second, ans = pos + 1;
+	return ans;
+}
 
 int main()
 {
-	int t, goal;
-	double begin, end;
-	char B[ 50 ], E[ 50 ];
+	int t;
 
-	for( scanf( "%d", &t ); t--; )
+	for( cin >> t; t--; )
 	{
-		pair<char*,char*> seg[ 100000 ];
-		int size = 0, index = 0, use = 0, p[ 100000 ], ps = 0;
-		bool ok = true;
+		vector<pair<int,int>> seg, ans;
+		int M;
+		bool wrong = false;
 
-		scanf( "%d\n", &goal );
-		while( scanf( "%s %s", B, E ) && ( strcmp( B, "0" ) || strcmp( E, "0" ) ) )
-			if( atof( E ) > 0 )
-				seg[ size++ ] = make_pair( strdup( B ), strdup( E ) );
-		sort( seg, seg+size, [] ( const pair<char*,char*>& a, const pair<char*,char*>& b ) { return atof( a.first ) < atof( b.first ); } );
+		cin >> M;
+		for( int begin, end; cin >> begin >> end && ( begin || end ); )
+			if( begin < M && end > 0 )
+				seg.push_back( make_pair( begin, end ) );
 
-		for( begin = 0, end = goal; begin < end; ++use )
-		{
-			if( atof( seg[ index ].first ) > begin || index >= size )
-			{
-				ok = false;
+		sort( seg.begin(), seg.end() );
+		for( int right = 0, idx = -1; right < M; )
+			if( wrong = ( idx = find( seg, idx, right ) ) == -1 )
 				break;
-			}
-			while( atof( seg[ index ].second ) <= begin && index < size )
-				++index;
-			if( atof( seg[ index ].first ) > begin || index >= size )
+			else
 			{
-				ok = false;
-				break;
+				ans.push_back( seg[ idx ] );
+				right = seg[ idx ].second;
 			}
-			double M = index < size? atof( seg[ index ].second ) : -1, P = index;
-			for( ; index < size && atof( seg[ index ].first ) <= begin; ++index )
-				if( M < atof( seg[ index ].second ) )
-					M = atof( seg[ index ].second ), P = index;
-			begin = M;
-			p[ ps++ ] = P;
-		}
-		if( ok )
-		{
-			printf( "%d\n", use );
-			for( int i = 0; i < ps; ++i )
-				printf( "%s %s\n", seg[ p[ i ] ].first, seg[ p[ i ] ].second );
-		}
+
+		if( wrong )
+			cout << 0 << endl;
 		else
-			puts( "0" );
+		{
+			cout << ans.size() << endl;
+			for( auto& i: ans )
+				cout << i.first << ' ' << i.second << endl;
+		}
 		if( t )
-			puts( "" );
+			cout << endl;
 	}
 }
