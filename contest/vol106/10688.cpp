@@ -16,6 +16,6 @@ int main()
 		}
 
 	scanf( "%d", &t );
-	for( int x = 1; x <= t && scanf( "%d %d", &n, &k ); )
+	for( int x = 1; x <= t && scanf( "%d %d", &n, &k ); ++x )
 		printf( "Case %d: %d\n", x, ans[ n ][ k ] );
 }
