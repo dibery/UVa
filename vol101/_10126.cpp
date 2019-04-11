@@ -12,6 +12,6 @@ int main()
 
 		for( auto i: stat )
 			if( i.second == times )
-				puts( i.first.c_str() );
+				cout << i.first << endl;
 	}
 }
