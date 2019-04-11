@@ -22,8 +22,7 @@ int main()
 			{
 				c += jcap[ j ];
 				h += jtem[ j ] * jcap[ j ];
-				if( c * 2 >= cap && c <= cap && abs( h / c - tem ) <= 5 
-						&& abs( h / c - tem ) < abs( best - tem ) )
+				if( c * 2 >= cap && c <= cap && h <= c * ( tem + 5 ) && abs( h - c * tem ) < c * abs( best - tem ) )
 				{
 					best = h / c;
 					ans = make_pair( i, j );
